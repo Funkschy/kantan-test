@@ -30,6 +30,8 @@ def main():
 
     if len(memory_leaks) > 0:
         print('THERE WERE COMPILER MEMORY LEAKS IN THE COMPILER')
+    else:
+        print('no memory leaks in the compiler detected')
 
     for memory_leak in memory_leaks:
         print(memory_leak.files)
