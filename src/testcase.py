@@ -7,6 +7,7 @@ from errors import TestError, Severity
 from output import KantanOutput
 
 error_rc = 255
+segfault_rc = -11
 
 
 def valgrind(filename: str) -> List[str]:
@@ -67,6 +68,8 @@ class Code(object):
         if output.used_valgrind:
             if output.rc == error_rc:
                 return self.create_error('{} has memory leaks'.format(self.filepath), Severity.COMPILER_MEMORY)
+            elif output.rc == segfault_rc:
+                return self.create_error('{} segfaulted'.format(self.filepath), Severity.COMPILER_MEMORY)
             else:
                 os.remove('{}.xml'.format(self.filename()))
                 pass
