@@ -54,6 +54,9 @@ class Code(object):
     def filename(self) -> str:
         return os.path.splitext(os.path.basename(self.filepath))[0]
 
+    def relative_to(self, filename: str) -> str:
+        return os.path.join(os.path.dirname(self.filepath), filename)
+
     def files(self) -> List[str]:
         return [self.filepath.replace('.py', '.kan')]
 
