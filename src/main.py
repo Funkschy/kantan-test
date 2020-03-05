@@ -46,7 +46,7 @@ def main():
         executor.map(lambda case: run_test_case(case, args, memory_leaks), test_cases)
 
     if len(memory_leaks) > 0:
-        print('THERE WERE COMPILER MEMORY LEAKS IN THE COMPILER')
+        print('THERE WERE COMPILER MEMORY PROBLEMS IN THE COMPILER')
     else:
         print('no memory leaks in the compiler detected')
 

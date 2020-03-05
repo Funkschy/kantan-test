@@ -8,6 +8,7 @@ from output import KantanOutput
 
 error_rc = 255
 segfault_rc = -11
+abort_rc = -6
 
 
 def valgrind(filename: str) -> List[str]:
@@ -70,6 +71,9 @@ class Code(object):
                 return self.create_error('{} has memory leaks'.format(self.filepath), Severity.COMPILER_MEMORY)
             elif output.rc == segfault_rc:
                 return self.create_error('{} segfaulted'.format(self.filepath), Severity.COMPILER_MEMORY)
+            elif output.rc == abort_rc:
+                # TODO: not really memory, maybe introduce a separate category
+                return self.create_error('{} aborted'.format(self.filepath), Severity.COMPILER_MEMORY)
             else:
                 os.remove('{}.xml'.format(self.filename()))
                 pass
