@@ -12,7 +12,7 @@ lock = threading.Lock()
 
 
 def run_test_case(case: TestCase, args, memory_leaks: List[TestError]):
-    output = case.execute(args.compiler, args.valgrind)
+    output = case.execute(args.compiler, args.valgrind, args.suppress)
     error = case.check_output(output)
     if error is None:
         return
@@ -34,6 +34,7 @@ def main():
     parser.add_argument('compiler', type=str, help='path to the compiler executable')
     parser.add_argument('tests', type=str, help='path to the test files directory')
     parser.add_argument('--valgrind', type=bool, default=False, help='use valgrind to check for memory leaks')
+    parser.add_argument('--suppress', type=str, default=None, help='path to valgrind suppress file')
     parser.add_argument('--threads', type=int, default=multiprocessing.cpu_count() * 2, help='number of worker threads')
 
     args = parser.parse_args()

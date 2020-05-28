@@ -11,9 +11,14 @@ segfault_rc = -11
 abort_rc = -6
 
 
-def valgrind(filename: str) -> List[str]:
+def valgrind(filename: str, suppress_path: Optional[str]) -> List[str]:
+    suppress = ''
+    if suppress_path is not None:
+        suppress = f'--suppressions={suppress_path}'
+
     return [
         'valgrind',
+        suppress,
         '--leak-check=full',
         '--error-exitcode=' + str(error_rc),
         '--xml=yes',
@@ -36,10 +41,10 @@ class TestCase(object):
         return self.test_code.check_output(output)
 
     # TODO: not only check compiler output, but also execute the program...
-    def execute(self, compiler: str, use_valgrind: bool) -> KantanOutput:
+    def execute(self, compiler: str, use_valgrind: bool, suppress_path: Optional[str]) -> KantanOutput:
         cmd = [compiler] + self.test_code.files()
         if use_valgrind:
-            cmd = valgrind(self.filename()) + cmd
+            cmd = valgrind(self.filename(), suppress_path) + cmd
 
         output = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         return KantanOutput(output, use_valgrind)
