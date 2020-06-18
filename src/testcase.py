@@ -42,7 +42,7 @@ class TestCase(object):
 
     # TODO: not only check compiler output, but also execute the program...
     def execute(self, compiler: str, use_valgrind: bool, suppress_path: Optional[str]) -> KantanOutput:
-        cmd = [compiler, '-o', 'out.o'] + self.test_code.files()
+        cmd = [compiler, '-o', 'out.o', '-g'] + self.test_code.files()
         if use_valgrind:
             cmd = valgrind(self.filename(), suppress_path) + cmd
 
